@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Project page for What Are We Actually Benchmarking in Robot Manipulation?">
+  <meta name="keywords" content="robot manipulation, robotics benchmarks, LIBERO, CALVIN, SimplerEnv, RoboCasa, RoboTwin">
+  <meta property="og:title" content="What Are We Actually Benchmarking in Robot Manipulation?">
+  <meta property="og:description" content="Diagnostics for shortcut solvability, statistical significance, creeping overfitting, and data-source dependence in robot manipulation benchmarks.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ripl.github.io/manipulation_benchmark_audit/">
+  <meta property="og:image" content="https://ripl.github.io/manipulation_benchmark_audit/figures/benchmark-results-cumulative.png">
+  <link rel="icon" href="data:,">
+  <title>What Are We Actually Benchmarking in Robot Manipulation?</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f6f4;
+      --surface: #ffffff;
+      --ink: #171717;
+      --muted: #5f625f;
+      --line: #d5d9d3;
+      --accent: #0f766e;
+      --warm: #9f4b1e;
+      --cool: #2f5f98;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    body {
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .page {
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      border-bottom: 1px solid var(--line);
+      background: rgba(244, 246, 244, 0.92);
+    }
+
+    .topbar .wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 58px;
+      gap: 18px;
+    }
+
+    .brand {
+      font-size: 0.92rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .nav a {
+      text-decoration: none;
+    }
+
+    .nav a:hover {
+      color: var(--ink);
+    }
+
+    .hero {
+      padding: 54px 0 38px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+      gap: 42px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--warm);
+      font-size: 0.86rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 850px;
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 3.05rem;
+      line-height: 1.05;
+      font-weight: 700;
+    }
+
+    .authors {
+      margin: 22px 0 0;
+      color: var(--ink);
+      font-size: 1.02rem;
+    }
+
+    .affiliations {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .summary {
+      max-width: 760px;
+      margin: 26px 0 0;
+      color: #303230;
+      font-size: 1.04rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border: 1px solid var(--ink);
+      border-radius: 6px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 0.94rem;
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .button.secondary {
+      background: var(--surface);
+      color: var(--ink);
+    }
+
+    .button.disabled {
+      border-color: var(--line);
+      background: #e6e9e6;
+      color: #67645c;
+      cursor: not-allowed;
+    }
+
+    .button small {
+      margin-left: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: inherit;
+    }
+
+    .figure-panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      overflow: hidden;
+    }
+
+    .figure-panel img {
+      width: 100%;
+      background: #fff;
+    }
+
+    .caption {
+      margin: 0;
+      padding: 12px 14px 14px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .section {
+      padding: 34px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section h2 {
+      margin: 0 0 18px;
+      font-size: 1.25rem;
+    }
+
+    .diagnostics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .diagnostic {
+      min-height: 138px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-top: 4px solid var(--accent);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .diagnostic:nth-child(2) {
+      border-top-color: var(--cool);
+    }
+
+    .diagnostic:nth-child(3) {
+      border-top-color: var(--warm);
+    }
+
+    .diagnostic:nth-child(4) {
+      border-top-color: #7c3aed;
+    }
+
+    .diagnostic h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      line-height: 1.25;
+    }
+
+    .diagnostic p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .benchmarks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .benchmarks li {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: #272927;
+      font-size: 0.94rem;
+      font-weight: 700;
+    }
+
+    footer {
+      padding: 24px 0 36px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 2.25rem;
+      }
+
+      .diagnostics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .wrap {
+        width: min(100% - 24px, 1120px);
+      }
+
+      .topbar .wrap {
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
+        padding: 8px 0;
+      }
+
+      .nav {
+        flex-wrap: wrap;
+        gap: 10px;
+        font-size: 0.84rem;
+      }
+
+      .hero {
+        padding: 24px 0 24px;
+      }
+
+      .hero-grid {
+        gap: 20px;
+      }
+
+      h1 {
+        font-size: 1.58rem;
+        line-height: 1.08;
+      }
+
+      .eyebrow {
+        margin-bottom: 8px;
+        font-size: 0.78rem;
+      }
+
+      .authors {
+        margin-top: 15px;
+        font-size: 0.92rem;
+      }
+
+      .affiliations {
+        font-size: 0.88rem;
+      }
+
+      .summary {
+        margin-top: 16px;
+        font-size: 0.96rem;
+      }
+
+      .actions {
+        flex-direction: column;
+        margin-top: 18px;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .figure-panel img {
+        height: 128px;
+        object-fit: contain;
+      }
+
+      .caption {
+        display: none;
+      }
+
+      .diagnostics {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="wrap">
+        <div class="brand">Manipulation Benchmark Audit</div>
+        <nav class="nav" aria-label="Page sections">
+          <a href="#diagnostics">Diagnostics</a>
+          <a href="#benchmarks">Benchmarks</a>
+          <a href="https://github.com/ripl/ManipulationBenchmarkAudit">Code</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="title">
+        <div class="wrap hero-grid">
+          <div>
+            <p class="eyebrow">Robot manipulation benchmark audit</p>
+            <h1 id="title">What Are We Actually Benchmarking in Robot Manipulation?</h1>
+            <p class="authors">Tianchong Jiang, Tewodros W. Ayalew, Luzhe Sun, Xiangshan Tan, Samuel Wheeler, Matthew Walter</p>
+            <p class="affiliations">TTIC, University of Chicago, Argonne National Laboratory</p>
+            <p class="summary">We audit widely used robot manipulation benchmarks with diagnostics for shortcut solvability, statistical significance, creeping overfitting, and data-source dependence.</p>
+            <div class="actions" aria-label="Project links">
+              <span class="button disabled" role="button" aria-disabled="true">arXiv <small>Coming soon</small></span>
+              <a class="button secondary" href="https://github.com/ripl/ManipulationBenchmarkAudit">Code</a>
+              <span class="button disabled" role="button" aria-disabled="true">Artifacts <small>Coming soon</small></span>
+            </div>
+          </div>
+
+          <figure class="figure-panel">
+            <img src="figures/benchmark-results-cumulative.png" alt="Cumulative arXiv papers reporting manipulation benchmark results across CALVIN, LIBERO, SimplerEnv, RoboCasa, and RoboTwin 2.0.">
+            <figcaption class="caption">A growing body of benchmark reports motivates diagnostics that separate real progress from benchmark-specific effects.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section" id="diagnostics" aria-labelledby="diagnostics-title">
+        <div class="wrap">
+          <h2 id="diagnostics-title">Diagnostics</h2>
+          <div class="diagnostics">
+            <article class="diagnostic">
+              <h3>Shortcut Solvability</h3>
+              <p>Checks whether benchmark tasks can be solved through exploitable cues instead of intended manipulation behavior.</p>
+            </article>
+            <article class="diagnostic">
+              <h3>Statistical Significance</h3>
+              <p>Audits whether reported gains are distinguishable under realistic rollout counts and success-rate variance.</p>
+            </article>
+            <article class="diagnostic">
+              <h3>Creeping Overfitting</h3>
+              <p>Tracks whether iterative benchmark use can reward adaptation to benchmark idiosyncrasies over general capability.</p>
+            </article>
+            <article class="diagnostic">
+              <h3>Data-Source Dependence</h3>
+              <p>Tests how benchmark outcomes shift when policies draw from different data sources or training mixtures.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="benchmarks" aria-labelledby="benchmarks-title">
+        <div class="wrap">
+          <h2 id="benchmarks-title">Benchmarks</h2>
+          <ul class="benchmarks">
+            <li>LIBERO</li>
+            <li>CALVIN</li>
+            <li>SimplerEnv</li>
+            <li>RoboCasa</li>
+            <li>RoboTwin 2.0</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">Project website: https://ripl.github.io/manipulation_benchmark_audit/</div>
+    </footer>
+  </div>
+</body>
+</html>
