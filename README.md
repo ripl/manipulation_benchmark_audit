@@ -2,7 +2,7 @@
 
 Lean static project page for the paper **What Are We Actually Benchmarking in Robot Manipulation?**
 
-Authors: Tianchong Jiang, Tewodros W. Ayalew, Luzhe Sun, Xiangshan Tan, Samuel Wheeler, Matthew Walter.
+Authors: Tianchong Jiang, Xiangshan Tan, Samuel Wheeler, Luzhe Sun, Tewodros W. Ayalew, Matthew Walter.
 
 Affiliations: TTIC, University of Chicago, Argonne National Laboratory.
 
