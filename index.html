@@ -9,7 +9,7 @@
   <meta property="og:description" content="Diagnostics for shortcut solvability, statistical significance, creeping overfitting, and data-source dependence in robot manipulation benchmarks.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ripl.github.io/manipulation_benchmark_audit/">
-  <meta property="og:image" content="https://ripl.github.io/manipulation_benchmark_audit/figures/benchmark-results-cumulative.png">
+  <meta property="og:image" content="https://ripl.github.io/manipulation_benchmark_audit/figures/benchmark-reported-results-stacked-area.png">
   <link rel="icon" href="data:,">
   <title>What Are We Actually Benchmarking in Robot Manipulation?</title>
   <style>
@@ -47,6 +47,7 @@
 
     img {
       display: block;
+      height: auto;
       max-width: 100%;
     }
 
@@ -57,6 +58,10 @@
     .wrap {
       width: min(1120px, calc(100% - 40px));
       margin: 0 auto;
+    }
+
+    .hero .wrap {
+      width: min(1240px, calc(100% - 40px));
     }
 
     .topbar {
@@ -101,9 +106,13 @@
 
     .hero-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
-      gap: 42px;
+      grid-template-columns: minmax(470px, 0.95fr) minmax(0, 1.25fr);
+      gap: 34px;
       align-items: center;
+    }
+
+    .hero-grid > * {
+      min-width: 0;
     }
 
     .eyebrow {
@@ -185,15 +194,16 @@
     }
 
     .figure-panel {
+      margin: 0;
       border: 1px solid var(--line);
       border-radius: 8px;
-      background: var(--surface);
+      background: var(--bg);
       overflow: hidden;
     }
 
     .figure-panel img {
       width: 100%;
-      background: #fff;
+      background: var(--bg);
     }
 
     .caption {
@@ -221,6 +231,7 @@
     }
 
     .diagnostic {
+      min-width: 0;
       min-height: 138px;
       padding: 18px;
       border: 1px solid var(--line);
@@ -245,6 +256,17 @@
       margin: 0 0 8px;
       font-size: 1rem;
       line-height: 1.25;
+    }
+
+    .diagnostic-figure {
+      width: 100%;
+      height: 156px;
+      margin: 2px 0 14px;
+      padding: 8px;
+      border: 1px solid #e2e5e0;
+      border-radius: 6px;
+      background: var(--surface);
+      object-fit: contain;
     }
 
     .diagnostic p {
@@ -278,11 +300,13 @@
       font-size: 0.9rem;
     }
 
-    @media (max-width: 860px) {
+    @media (max-width: 980px) {
       .hero-grid {
         grid-template-columns: 1fr;
       }
+    }
 
+    @media (max-width: 860px) {
       h1 {
         font-size: 2.25rem;
       }
@@ -290,11 +314,19 @@
       .diagnostics {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+
+      .diagnostic-figure {
+        height: 190px;
+      }
     }
 
     @media (max-width: 560px) {
       .wrap {
-        width: min(100% - 24px, 1120px);
+        width: calc(100% - 24px);
+      }
+
+      .hero .wrap {
+        width: calc(100% - 24px);
       }
 
       .topbar .wrap {
@@ -318,9 +350,23 @@
         gap: 20px;
       }
 
+      .hero-grid > *,
+      .actions,
+      .figure-panel,
+      .diagnostics {
+        max-width: 320px;
+      }
+
       h1 {
-        font-size: 1.58rem;
+        max-width: 320px;
+        font-size: 1.42rem;
         line-height: 1.08;
+      }
+
+      .authors,
+      .affiliations,
+      .summary {
+        max-width: 320px;
       }
 
       .eyebrow {
@@ -363,6 +409,10 @@
       .diagnostics {
         grid-template-columns: 1fr;
       }
+
+      .diagnostic-figure {
+        height: 166px;
+      }
     }
   </style>
 </head>
@@ -384,7 +434,7 @@
         <div class="wrap hero-grid">
           <div>
             <p class="eyebrow">Robot manipulation benchmark audit</p>
-            <h1 id="title">What Are We Actually Benchmarking in Robot Manipulation?</h1>
+            <h1 id="title">What Are We Actually<br>Benchmarking in Robot<br>Manipulation?</h1>
             <p class="authors">Tianchong Jiang, Xiangshan Tan, Samuel Wheeler, Luzhe Sun, Tewodros W. Ayalew, Matthew Walter</p>
             <p class="affiliations">TTIC, University of Chicago, Argonne National Laboratory</p>
             <p class="summary">We audit widely used robot manipulation benchmarks with diagnostics for shortcut solvability, statistical significance, creeping overfitting, and data-source dependence.</p>
@@ -396,8 +446,8 @@
           </div>
 
           <figure class="figure-panel">
-            <img src="figures/benchmark-results-cumulative.png" alt="Cumulative arXiv papers reporting manipulation benchmark results across CALVIN, LIBERO, SimplerEnv, RoboCasa, and RoboTwin 2.0.">
-            <figcaption class="caption">A growing body of benchmark reports motivates diagnostics that separate real progress from benchmark-specific effects.</figcaption>
+            <img src="figures/benchmark-reported-results-stacked-area.png" width="2310" height="907" alt="Cumulative counts of arXiv papers reporting results on CALVIN, LIBERO, SimplerEnv, RoboCasa, and RoboTwin 2.0.">
+            <figcaption class="caption">Cumulative counts of arXiv papers reporting results on CALVIN, LIBERO, SimplerEnv, RoboCasa, and RoboTwin 2.0.</figcaption>
           </figure>
         </div>
       </section>
@@ -408,19 +458,23 @@
           <div class="diagnostics">
             <article class="diagnostic">
               <h3>Shortcut Solvability</h3>
-              <p>Checks whether benchmark tasks can be solved through exploitable cues instead of intended manipulation behavior.</p>
+              <img class="diagnostic-figure" src="figures/diagnostic-shortcut-solvability.png" width="1440" height="900" alt="Paper result figure for the shortcut solvability diagnostic." decoding="async">
+              <p>A benchmark score is evidence of capability only if any policy achieving it has the capability. We show that for LIBERO, a simple 0.09B probe with no language encoder and no large-scale robotics pretraining scores at or near the best reported result, while on RoboTwin 2.0 and RoboCasa it scores well below the best reported result.</p>
             </article>
             <article class="diagnostic">
               <h3>Statistical Significance</h3>
-              <p>Audits whether reported gains are distinguishable under realistic rollout counts and success-rate variance.</p>
+              <img class="diagnostic-figure" src="figures/diagnostic-statistical-significance.png" width="1117" height="600" alt="Paper result figure for the statistical significance diagnostic." decoding="async">
+              <p>Most benchmarks report only an aggregate success rate, from which the significance of a reported gain cannot be tested. On LIBERO and SimplerEnv, only 19.8% and 19.7% of SOTA claims, respectively, are provably significant. On RoboCasa and RoboTwin 2.0, the shares rise to 53.3% and 73.7%, respectively.</p>
             </article>
             <article class="diagnostic">
               <h3>Creeping Overfitting</h3>
-              <p>Tracks whether iterative benchmark use can reward adaptation to benchmark idiosyncrasies over general capability.</p>
+              <img class="diagnostic-figure" src="figures/diagnostic-creeping-overfitting.png" width="1290" height="580" alt="Paper result figure for the creeping overfitting diagnostic." decoding="async">
+              <p>A benchmark's test distribution can be a narrow region of the training distribution's support, and its fixed test set is one sample from that region. Policies can fit either, which we call distribution overfitting and sample overfitting. On CALVIN, resampling block poses within the training range lowers average tasks completed out of five (ATC) from 4.17 to 3.14.</p>
             </article>
             <article class="diagnostic">
               <h3>Data-Source Dependence</h3>
-              <p>Tests how benchmark outcomes shift when policies draw from different data sources or training mixtures.</p>
+              <img class="diagnostic-figure" src="figures/diagnostic-data-source-dependence.png" width="1117" height="600" alt="Paper result figure for the data-source dependence diagnostic." decoding="async">
+              <p>A small model trained on demonstrations closer to the test distribution can match a much larger model trained on more general data. As a result, a benchmark score cannot distinguish generalization from how close the training data is to the test distribution.</p>
             </article>
           </div>
         </div>

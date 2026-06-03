@@ -11,7 +11,8 @@ Public website path: <https://ripl.github.io/manipulation_benchmark_audit/>
 ## Files
 
 - `index.html`: dependency-free static project page with inline CSS.
-- `figures/benchmark-results-cumulative.png`: lightweight paper-owned figure used on the page.
+- `figures/benchmark-reported-results-stacked-area.png`: paper-owned benchmark-report count figure used on the page.
+- `figures/diagnostic-*.png`: paper-result figures used in the four diagnostic cards.
 
 ## Links
 
