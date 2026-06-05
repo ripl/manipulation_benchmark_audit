@@ -138,7 +138,16 @@
       font-size: 1.02rem;
     }
 
+    .authors sup,
+    .affiliations sup {
+      font-size: 0.7em;
+      line-height: 0;
+    }
+
     .affiliations {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px 14px;
       margin: 6px 0 0;
       color: var(--muted);
       font-size: 0.96rem;
@@ -426,8 +435,8 @@
           <div>
             <p class="eyebrow">Robot manipulation benchmark audit</p>
             <h1 id="title">What Are We Actually<br>Benchmarking in Robot<br>Manipulation?</h1>
-            <p class="authors"><a href="https://tianchong-jiang.github.io/">Tianchong Jiang</a>, <a href="https://vincent-tann.github.io/">Xiangshan Tan</a>, <a href="https://scholar.google.com/citations?user=5oGQphkAAAAJ&amp;hl=en">Samuel Wheeler</a>, <a href="https://tllokn.github.io/">Luzhe Sun</a>, <a href="https://tedywond.github.io/">Tewodros W. Ayalew</a>, <a href="https://home.ttic.edu/~mwalter/">Matthew Walter</a></p>
-            <p class="affiliations">TTIC, University of Chicago, Argonne National Laboratory</p>
+            <p class="authors"><a href="https://tianchong-jiang.github.io/">Tianchong Jiang<sup>1</sup></a>, <a href="https://vincent-tann.github.io/">Xiangshan Tan<sup>1,*</sup></a>, <a href="https://scholar.google.com/citations?user=5oGQphkAAAAJ&amp;hl=en">Samuel Wheeler<sup>3,*</sup></a>, <a href="https://tllokn.github.io/">Luzhe Sun<sup>1,*</sup></a>, <a href="https://tedywond.github.io/">Tewodros W. Ayalew<sup>2,*</sup></a>, <a href="https://home.ttic.edu/~mwalter/">Matthew Walter<sup>1</sup></a></p>
+            <p class="affiliations"><span><sup>1</sup> Toyota Technological Institute at Chicago, Chicago, IL, USA</span><span><sup>2</sup> University of Chicago, Chicago, IL, USA</span><span><sup>3</sup> Argonne National Laboratory, Lemont, IL, USA</span><span><sup>*</sup> Equal contribution</span></p>
             <p class="summary">We audit widely used robot manipulation benchmarks with diagnostics for shortcut solvability, statistical significance, creeping overfitting, and data-source dependence.</p>
             <div class="actions" aria-label="Project links">
               <a class="button" href="https://arxiv.org/abs/2606.04233">arXiv</a>
