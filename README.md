@@ -16,9 +16,8 @@ Public website path: <https://ripl.github.io/manipulation_benchmark_audit/>
 
 ## Links
 
-- arXiv: preprint URL will be added when available.
-- Code: <https://github.com/ripl/ManipulationBenchmarkAudit>
-- Artifacts: Coming soon.
+- arXiv: <https://arxiv.org/abs/2606.04233>
+- Code & Artifacts: <https://github.com/ripl/ManipulationBenchmarkAudit>
 
 ## Scope
 
